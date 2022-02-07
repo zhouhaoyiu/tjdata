@@ -26,7 +26,7 @@
       <div class="dialog" v-if="dialogTitle === '提交引物数据'">
         <div class="dialogLine">
           <div class="lineTitle">提交人</div>
-          <el-input v-model="primerForm.userName"></el-input>
+          <el-input disabled v-model="primerForm.userName"></el-input>
         </div>
         <div class="dialogLine">
           <div class="lineTitle">订购日期</div>
@@ -49,7 +49,11 @@
           <el-input v-model="primerForm.baseSequence"></el-input>
         </div>
       </div>
-      <div class="dialog" v-if="dialogTitle === '提交载体数据'">
+      <div class="dialog" v-if="dialogTitle === '提交质粒数据'">
+        <div class="dialogLine">
+          <div class="lineTitle">提交人</div>
+          <el-input disabled v-model="vectorForm.userName"></el-input>
+        </div>
         <div class="dialogLine">
           <div class="lineTitle">载体名称</div>
           <el-input v-model="vectorForm.vectorName"></el-input>
@@ -64,11 +68,27 @@
         </div>
         <div class="dialogLine">
           <div class="lineTitle">内切酶1</div>
-          <el-input v-model="vectorForm.RES1"></el-input>
+          <el-select v-model="vectorForm.RES1">
+            <el-option
+              v-for="item in getResSelect"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
         </div>
         <div class="dialogLine">
           <div class="lineTitle">内切酶2</div>
-          <el-input v-model="vectorForm.RES2"></el-input>
+          <el-select v-model="vectorForm.RES2">
+            <el-option
+              v-for="item in getResSelect"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
         </div>
         <div class="dialogLine">
           <div class="lineTitle">描述</div>
@@ -94,13 +114,14 @@ export default {
       dialogVisible: false,
 
       primerForm: {
-        userName: "",
+        userName: this.$store.state.userName,
         orderDate: "",
         primerName: "",
         baseSequence: "",
       },
 
       vectorForm: {
+        userName: this.$store.state.userName, //提交人
         vectorName: "", // 载体名称
         geneName: "", // 基因名称
         geneSequence: "", // 基因序列
@@ -145,22 +166,119 @@ export default {
           type: "primary",
         },
         {
+          name: "提交质粒数据",
+          type: "primary",
+        },
+        {
           name: "查询引物数据",
           type: "default",
           path: "primer",
         },
         {
-          name: "提交载体数据",
-          type: "primary",
-        },
-        {
-          name: "查询载体数据",
+          name: "查询质粒数据",
           type: "default",
           path: "vector",
         },
       ],
+      RES: [
+        "Aat II",
+        "Acc I",
+        "Acc II (FunD II)",
+        "Acc III (BspM II)",
+        "Afa I (Rsa I)",
+        "Afl II",
+        "Alu I",
+        "Aor13H I (BspM II, Acc III)",
+        "Aor51H I (Eco47 III)",
+        "Apa I",
+        "ApaL I",
+        "Bal I",
+        "BamH I",
+        "Ban II (HgiJ II)",
+        "BciT130 I (EcoR II, Mva I)",
+        "Bcn I (Cau II)",
+        "Bgl I",
+        "Bgl II",
+        "Bln I (Avr II)",
+        "Bme T110 I (Ava I)",
+        "Bpu1102 I (Esp I)",
+        "Bsp1286 I (Sdu I)",
+        "Bsp1407 I",
+        "BspT104 I (Asu II, Nsp V)",
+        "BspT107 I (HgiC I)",
+        "BssH II (BseP I)",
+        "Bst1107 I (Sna I)",
+        "BstP I (BstE II, EcoO65 I)",
+        "BstX I",
+        "Cfr10 I",
+        "Cla I",
+        "CpoI (Rsr II)",
+        "Dde I",
+        "Dpn I",
+        "Dra I (Aha III)",
+        "Eae I (Cfr I)",
+        "Eco52 I (Xma III)",
+        "Eco81 I (Sau I)",
+        "EcoO109 I (Dra II)",
+        "EcoO65 I (BstE II, BstP I)",
+        "EcoR I",
+        "EcoR V",
+        "EcoT14 I (Sty I)",
+        "EcoT22 I (Ava III)",
+        "Fba I (Bcl I)",
+        "Fok I",
+        "Hae II",
+        "Hae III",
+        "Hap II (Hpa II,Msp I)",
+        "Hha I",
+        "Hin1 I (Acy I,Bbi II)",
+        "Hinc II (Hind II)",
+        "Hind III",
+        "Hinf I",
+        "Hpa I",
+        "Kpn I",
+        "Mbo I (Sau3A I)",
+        "Mbo II",
+        "Mfl I (Xho II)",
+        "Mlu I",
+        "Msp I (Hpa II,Hap II)",
+        "Mun I (Mfe I)",
+        "Nae I",
+        "Nco I",
+        "Nde I",
+        "Nhe I",
+        "Not I",
+        "Nru I",
+        "PmaC I",
+        "Psp1406 I (Acl I)",
+        "Pst I",
+        "Pvu I",
+        "Pvu II",
+        "RspRS II (Mse I)",
+        "Sac I",
+        "Sac II",
+        "Sal I",
+        "Sau3A I (Mbo I)",
+        "Sca I",
+        "Sfi I",
+        "Sma I",
+        "Smi I (Swa I)",
+        "SnaB I",
+        "Spe I",
+        "Sph I",
+        "Sse8387 I",
+        "Ssp I",
+        "Stu I",
+        "Taq I (TthHB8 I)",
+        "Van91 I (PflM I)",
+        "VpaK11B I (Ava II)",
+        "Xba I",
+        "Xho I",
+        "Xsp I (Bfa I, Mae I)",
+      ],
     };
   },
+
   methods: {
     openDialog(btn) {
       if (btn.type === "primary") {
@@ -216,6 +334,21 @@ export default {
           this.$message.error("数据不能为空");
         }
       }
+    },
+  },
+  mounted() {
+    if (!this.$store.state.ticket) {
+      this.$router.push("/login");
+    }
+    console.log("CODE BY ZHY");
+  },
+
+  computed: {
+    getResSelect() {
+      return this.RES.map((item) => ({
+        label: item,
+        value: item,
+      }));
     },
   },
 };

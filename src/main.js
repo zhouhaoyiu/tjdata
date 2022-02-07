@@ -2,18 +2,16 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
 import "../src/assets/reset.scss";
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-
+import axios from "axios";
+import VueAxios from "vue-axios";
 
 Vue.config.productionTip = false;
-Vue.use(ElementUI)
-Vue.use(VueAxios, axios)
-axios.defaults.baseURL = "http://localhost:8099/"
-
+Vue.use(ElementUI);
+Vue.use(VueAxios, axios);
+axios.defaults.baseURL = "http://114.115.175.108:8099/";
 
 new Vue({
   router,

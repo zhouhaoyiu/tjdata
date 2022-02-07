@@ -1,6 +1,6 @@
 <template>
   <div class="vector">
-    <div class="title">查找引物</div>
+    <div class="title">查找质粒</div>
     <div class="input">
       <el-input placeholder="请输入查找的内容" v-model="searchText"></el-input>
     </div>
@@ -14,8 +14,13 @@
       stripe
     >
       <el-table-column
+        prop="userName"
+        label="提交人"
+        align="center"
+      ></el-table-column>
+      <el-table-column
         prop="vectorName"
-        label="载体名称"
+        label="质粒名称"
         align="center"
       ></el-table-column>
       <el-table-column
@@ -84,7 +89,6 @@ export default {
     async getAllVector() {
       const res = await this.axios.get("vector/getAllVector");
       this.allVector = this.baseVector = res.data.data;
-      console.log(this.allVector);
     },
     getSeq(seq) {
       this.dialogText = seq;

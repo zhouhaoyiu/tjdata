@@ -15,10 +15,10 @@
     >
       <el-table-column
         prop="userName"
-        label="用户名"
+        label="提交人"
         align="center"
       ></el-table-column>
-      <el-table-column label="订单日期" align="center">
+      <el-table-column label="订购日期" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{
@@ -33,7 +33,7 @@
       ></el-table-column>
       <el-table-column
         prop="baseSequence"
-        label="引物序列"
+        label="碱基序列"
         align="center"
       ></el-table-column>
     </el-table>
