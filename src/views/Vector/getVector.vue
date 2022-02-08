@@ -20,7 +20,7 @@
       ></el-table-column>
       <el-table-column
         prop="vectorName"
-        label="质粒名称"
+        label="载体名称"
         align="center"
       ></el-table-column>
       <el-table-column

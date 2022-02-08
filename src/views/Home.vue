@@ -181,6 +181,7 @@ export default {
         },
       ],
       RES: [
+        "无",
         "Aat II",
         "Acc I",
         "Acc II (FunD II)",
@@ -310,12 +311,13 @@ export default {
           this.$message.error("数据不能为空");
         }
       }
-      if (this.dialogTitle === "提交载体数据") {
+      if (this.dialogTitle === "提交质粒数据") {
         // console.log(this.vectorForm);
-        let { vectorName, geneName, geneSequence, RES1, RES2, description } =
+        let {userName, vectorName, geneName, geneSequence, RES1, RES2, description } =
           this.vectorForm;
-        if (vectorName && geneName && geneSequence && RES1 && RES2) {
+        if (userName && vectorName && geneName && geneSequence && RES1 && RES2) {
           const res = await this.axios.post("vector/addVector", {
+            userName: userName,
             vectorName: vectorName,
             geneName: geneName,
             geneSequence: geneSequence,
