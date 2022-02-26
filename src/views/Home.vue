@@ -25,11 +25,11 @@
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible">
       <div class="dialog" v-if="dialogTitle === '提交引物数据'">
         <div class="dialogLine">
-          <div class="lineTitle">提交人</div>
+          <div class="lineTitle">提交人<span class="red">*</span></div>
           <el-input disabled v-model="primerForm.userName"></el-input>
         </div>
         <div class="dialogLine">
-          <div class="lineTitle">订购日期</div>
+          <div class="lineTitle">订购日期<span class="red">*</span></div>
           <el-date-picker
             v-model="primerForm.orderDate"
             align="right"
@@ -41,29 +41,42 @@
           </el-date-picker>
         </div>
         <div class="dialogLine">
-          <div class="lineTitle">引物名称</div>
+          <div class="lineTitle">引物名称<span class="red">*</span></div>
           <el-input v-model="primerForm.primerName"></el-input>
         </div>
         <div class="dialogLine">
-          <div class="lineTitle">碱基序列</div>
+          <div class="lineTitle">碱基序列<span class="red">*</span></div>
           <el-input v-model="primerForm.baseSequence"></el-input>
         </div>
       </div>
       <div class="dialog" v-if="dialogTitle === '提交质粒数据'">
         <div class="dialogLine">
-          <div class="lineTitle">提交人</div>
+          <div class="lineTitle">提交人<span class="red">*</span></div>
           <el-input disabled v-model="vectorForm.userName"></el-input>
         </div>
         <div class="dialogLine">
-          <div class="lineTitle">载体名称</div>
-          <el-input v-model="vectorForm.vectorName"></el-input>
+          <div class="lineTitle">载体名称<span class="red">*</span></div>
+          <el-select
+            v-model="vectorForm.vectorName"
+            filterable
+            allow-create
+            default-first-option
+          >
+            <el-option
+              v-for="item in getVectorSelect"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
         </div>
         <div class="dialogLine">
-          <div class="lineTitle">基因名称</div>
+          <div class="lineTitle">基因名称<span class="red">*</span></div>
           <el-input v-model="vectorForm.geneName"></el-input>
         </div>
         <div class="dialogLine">
-          <div class="lineTitle">基因序列</div>
+          <div class="lineTitle">基因序列<span class="red">*</span></div>
           <el-input v-model="vectorForm.geneSequence"></el-input>
         </div>
         <div class="dialogLine">
@@ -95,6 +108,73 @@
           <el-input v-model="vectorForm.description"></el-input>
         </div>
       </div>
+      <div class="dialog" v-if="dialogTitle === '提交订购单'">
+        <div class="dialogLine">
+          <div class="lineTitle">提交人<span class="red">*</span></div>
+          <el-input disabled v-model="orderForm.userName"></el-input>
+        </div>
+        <div class="dialogLine">
+          <div class="lineTitle">订购日期<span class="red">*</span></div>
+          <el-date-picker
+            disabled
+            v-model="orderForm.orderDate"
+            align="right"
+            type="date"
+            value-format="yyyy-MM-dd"
+          >
+          </el-date-picker>
+          <div
+            class=""
+            style="
+              line-height: 40px;
+              margin-left: 20px;
+              color: gray;
+              font-size: 12px;
+            "
+          >
+            提示：订单提
+          </div>
+        </div>
+        <div class="dialogLine">
+          <div class="lineTitle">商品名称<span class="red">*</span></div>
+          <el-input v-model="orderForm.orderName"></el-input>
+        </div>
+        <div class="dialogLine">
+          <div class="lineTitle">品牌要求</div>
+          <el-select
+            v-model="orderForm.brand"
+            filterable
+            allow-create
+            default-first-option
+          >
+            <el-option
+              v-for="item in getOrderSelect"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div class="dialogLine">
+          <div class="lineTitle">规格<span class="red">*</span></div>
+          <el-input v-model="orderForm.specification"></el-input>
+        </div>
+        <div class="dialogLine">
+          <div class="lineTitle">数量<span class="red">*</span></div>
+          <el-input-number
+            v-model="orderForm.amount"
+            :min="1"
+            :max="1000"
+            label="数量"
+          >
+          </el-input-number>
+        </div>
+        <div class="dialogLine">
+          <div class="lineTitle" @click="showInfo">备注（淘宝链接）</div>
+          <el-input v-model="orderForm.description"></el-input>
+        </div>
+      </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="sendForm()">确 定</el-button>
@@ -104,6 +184,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 // @ is an alias to /src
 // import bopic from "../assets/bopic.jpg";
 export default {
@@ -127,6 +208,16 @@ export default {
         geneSequence: "", // 基因序列
         RES1: "", // 内切酶1
         RES2: "", // 内切酶2
+        description: "", // 描述
+      },
+
+      orderForm: {
+        userName: this.$store.state.userName, //提交人
+        orderDate: new Date(), // 订购时间
+        orderName: "", // 商品名称
+        brand: "", // 品牌要求
+        specification: "", // 规格
+        amount: "", // 数量
         description: "", // 描述
       },
 
@@ -178,6 +269,16 @@ export default {
           name: "查询质粒数据",
           type: "default",
           path: "vector",
+        },
+        {
+          name: "提交订购单",
+          type: "primary",
+          path: "order",
+        },
+        {
+          name: "查询订购信息",
+          type: "default",
+          path: "order",
         },
       ],
       RES: [
@@ -277,10 +378,36 @@ export default {
         "Xho I",
         "Xsp I (Bfa I, Mae I)",
       ],
+      VECTOR: [
+        "pMD-19T",
+        "pMD-18T",
+        "pGADT7",
+        "pGBKT7",
+        "pET-14b",
+        "pCold",
+        "cLUC",
+        "nLUC",
+        "pSOS",
+        "p1665",
+        "p1666",
+      ],
+      ORDER: [
+        "",
+        "淘宝",
+        "麦克林",
+        "阿拉丁",
+        "拼多多",
+        "Takara",
+        "ThermoFisher",
+        "Sigma",
+      ],
     };
   },
 
   methods: {
+    showInfo() {
+      console.log(JSON.stringify(this.orderForm, 0, 2));
+    },
     openDialog(btn) {
       if (btn.type === "primary") {
         this.dialogVisible = true;
@@ -302,7 +429,12 @@ export default {
           });
           if (res.data.code === "0") {
             this.$message.success(res.data.msg);
-            this.primerForm = {};
+            this.primerForm = {
+              userName: this.$store.state.userName,
+              orderDate: "",
+              primerName: "",
+              baseSequence: "",
+            };
             // this.dialogVisible = false;
           } else {
             this.$message.error(res.data.msg);
@@ -313,9 +445,23 @@ export default {
       }
       if (this.dialogTitle === "提交质粒数据") {
         // console.log(this.vectorForm);
-        let {userName, vectorName, geneName, geneSequence, RES1, RES2, description } =
-          this.vectorForm;
-        if (userName && vectorName && geneName && geneSequence && RES1 && RES2) {
+        let {
+          userName,
+          vectorName,
+          geneName,
+          geneSequence,
+          RES1,
+          RES2,
+          description,
+        } = this.vectorForm;
+        if (
+          userName &&
+          vectorName &&
+          geneName &&
+          geneSequence &&
+          RES1 &&
+          RES2
+        ) {
           const res = await this.axios.post("vector/addVector", {
             userName: userName,
             vectorName: vectorName,
@@ -327,7 +473,15 @@ export default {
           });
           if (res.data.code === "0") {
             this.$message.success(res.data.msg);
-            this.vectorForm = {};
+            this.vectorForm = {
+              userName: this.$store.state.userName, //提交人
+              vectorName: "", // 载体名称
+              geneName: "", // 基因名称
+              geneSequence: "", // 基因序列
+              RES1: "", // 内切酶1
+              RES2: "", // 内切酶2
+              description: "", // 描述
+            };
             // this.dialogVisible = false;
           } else {
             this.$message.error(res.data.msg);
@@ -336,18 +490,81 @@ export default {
           this.$message.error("数据不能为空");
         }
       }
+      if (this.dialogTitle === "提交订购单") {
+        // console.log(this.orderForm);
+        let {
+          userName,
+          orderDate,
+          orderName,
+          brand,
+          specification,
+          amount,
+          description,
+        } = this.orderForm;
+        if (orderDate)
+          if (userName && orderDate && orderName && amount && specification) {
+            const res = await this.axios.post("order/addOrder", {
+              userName: userName,
+              orderDate: orderDate,
+              orderName: orderName,
+              brand: brand || " ",
+              specification: specification,
+              amount: amount,
+              description: description || " ",
+            });
+            if (res.data.code === "0") {
+              this.$message.success(res.data.msg);
+              this.orderForm = {
+                userName: this.$store.state.userName, //提交人
+                orderDate: new Date(), // 订购时间
+                orderName: "", // 商品名称
+                brand: "", // 品牌要求
+                specification: "", // 规格
+                amount: "", // 数量
+                description: "", // 描述
+              };
+              // this.dialogVisible = false;
+            } else {
+              this.$message.error(res.data.msg);
+            }
+          } else {
+            this.$message.error("数据不能为空");
+          }
+      }
     },
   },
   mounted() {
     if (!this.$store.state.ticket) {
       this.$router.push("/login");
+    } else if (dayjs(Date()).unix() - localStorage.getItem("date") > 345600) {
+      this.$message({
+        message: "处理订单时间",
+        type: "warning",
+        offset: 80,
+      });
+      localStorage.setItem(
+        "date",
+        dayjs(dayjs(Date()).format("YYYY-MM-DD")).unix()
+      );
     }
+
     console.log("CODE BY ZHY");
   },
-
   computed: {
     getResSelect() {
       return this.RES.map((item) => ({
+        label: item,
+        value: item,
+      }));
+    },
+    getVectorSelect() {
+      return this.VECTOR.map((item) => ({
+        label: item,
+        value: item,
+      }));
+    },
+    getOrderSelect() {
+      return this.ORDER.map((item) => ({
         label: item,
         value: item,
       }));
@@ -357,6 +574,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.red {
+  color: red;
+  padding: 0px 2px;
+}
 .home {
   width: 100%;
   height: 100%;
@@ -380,6 +601,7 @@ export default {
     justify-content: center;
   }
   .dialog {
+    padding: 10px;
     .dialogLine {
       display: flex;
       margin-bottom: 20px;

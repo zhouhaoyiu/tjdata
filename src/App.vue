@@ -4,6 +4,19 @@
   </div>
 </template>
 
+<script>
+import dayjs from "dayjs";
+export default {
+  name: "app",
+  methods: {},
+  mounted() {
+    if (!localStorage.getItem("date")) {
+      localStorage.setItem("date", dayjs("2022-01-01").unix());
+    }
+  },
+};
+</script>
+
 <style lang="scss" scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

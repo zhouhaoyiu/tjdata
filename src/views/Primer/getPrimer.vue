@@ -18,7 +18,7 @@
         label="提交人"
         align="center"
       ></el-table-column>
-      <el-table-column label="订购日期" align="center">
+      <el-table-column label="订购日期" align="center" sortable>
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{
