@@ -2,7 +2,7 @@
 
 tjdata是一个用于提供数据查询的简单的网站。
 
-![svg](Language.svg) ![svg](Version.svg)
+![svg](/Language.svg) ![svg](/Version.svg)
 
 ``` HTML
   _______    _  ____  _    _      _    _          ____    __     ___    _               
