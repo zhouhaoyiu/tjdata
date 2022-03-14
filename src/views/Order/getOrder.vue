@@ -52,16 +52,35 @@
         label="数量"
         align="center"
       ></el-table-column>
-      <el-table-column
-        prop="description"
-        label="备注（淘宝链接）"
-        align="center"
-      ></el-table-column>
+      <el-table-column label="备注（淘宝链接）" align="center">
+        <template slot-scope="scope">
+          <div v-if="scope.row.description.length > 20">
+            <el-popover
+              placement="bottom"
+              title=""
+              width="200"
+              trigger="click"
+              :content="scope.row.description"
+            >
+              <el-button slot="reference">点击查看</el-button>
+            </el-popover>
+          </div>
+
+          <div v-else>
+            {{
+              scope.row.description.length > 20
+                ? scope.row.description.substring(0, 20) + "..."
+                : scope.row.description
+            }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="price"
         label="价格"
         align="center"
         sortable
+        :sort-method="price()"
       ></el-table-column>
       <el-table-column
         prop="classification"
@@ -155,6 +174,12 @@ export default {
   },
 
   methods: {
+    price() {
+      return (a, b) => {
+        return a.price - b.price;
+      };
+    },
+
     editOrder(id) {
       this.dialogVisible = true;
 
@@ -176,7 +201,12 @@ export default {
     async getAllOrder() {
       const res = await this.axios.get("order/getAllOrder");
       this.baseOrder = this._.cloneDeep(res.data.data);
-      this.allOrder = this._.cloneDeep(this.baseOrder);
+      this.allOrder = this._.cloneDeep(this.baseOrder).sort((a, b) => {
+        // console.log(new Date(a.orderDate) - new Date(b.orderDate))
+        return new Date(b.orderDate) - new Date(a.orderDate);
+      });
+      console.log(this.allOrder);
+      this.$forceUpdate();
       // this.allOrder = this.baseOrder = res.data.data;
     },
     async sendForm() {
@@ -228,7 +258,7 @@ export default {
   }
 
   .back {
-    margin-top: 60px;
+    margin-top: 40px;
   }
   .dialog {
     padding: 10px;
