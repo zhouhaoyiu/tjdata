@@ -219,12 +219,8 @@ export default {
       const res = await this.axios.get("order/getAllOrder");
       this.baseOrder = this._.cloneDeep(res.data.data);
       this.allOrder = this._.cloneDeep(this.baseOrder).sort((a, b) => {
-        // console.log(new Date(a.orderDate) - new Date(b.orderDate))
         return new Date(b.orderDate) - new Date(a.orderDate);
       });
-      console.log(this.allOrder);
-      this.$forceUpdate();
-      // this.allOrder = this.baseOrder = res.data.data;
     },
     async sendForm() {
       const res = await this.axios.post(

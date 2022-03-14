@@ -160,7 +160,7 @@
           </el-input-number>
         </div>
         <div class="dialogLine">
-          <div class="lineTitle" @click="showInfo">备注（淘宝链接）</div>
+          <div class="lineTitle">备注（淘宝链接）</div>
           <el-input v-model="orderForm.description"></el-input>
         </div>
       </div>
@@ -393,9 +393,6 @@ export default {
   },
 
   methods: {
-    showInfo() {
-      console.log(JSON.stringify(this.orderForm, 0, 2));
-    },
     openDialog(btn) {
       if (btn.type === "primary") {
         this.dialogVisible = true;
@@ -524,9 +521,7 @@ export default {
   mounted() {
     if (!this.$store.state.ticket) {
       this.$router.push("/login");
-    }
-
-    console.log("CODE BY ZHY");
+    }  
   },
   computed: {
     getResSelect() {

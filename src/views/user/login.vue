@@ -37,6 +37,9 @@ export default {
       },
     };
   },
+  mounted(){
+    // console.clear()
+  },
   methods: {
     async login() {
       const res = await this.axios.post("/user/userLogin", this.form);
