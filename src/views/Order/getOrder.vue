@@ -87,7 +87,13 @@
         label="类型"
         align="center"
       ></el-table-column>
-      <el-table-column prop="status" label="订单状态" align="center" sortable>
+      <el-table-column
+        prop="status"
+        label="订单状态"
+        align="center"
+        sortable
+        :sort-method="sortStatus()"
+      >
         <template slot-scope="scope">
           <el-tag type="" v-if="scope.row.orderStatus === '1'"
             >已提交未订购</el-tag
@@ -174,6 +180,17 @@ export default {
   },
 
   methods: {
+    sortStatus() {
+      return (a, b) => {
+        if (a.orderStatus < b.orderStatus) {
+          return -1;
+        }
+        if (a.orderStatus > b.orderStatus) {
+          return 1;
+        }
+        return 0;
+      };
+    },
     price() {
       return (a, b) => {
         return a.price - b.price;
