@@ -14,6 +14,7 @@ module.exports = {
   "plugins": [
       "vue",
   ],
+  parser: "vue-eslint-parser",
   "rules": {
       "no-unused-vars": "off",
       'no-useless-escape': 'off',
