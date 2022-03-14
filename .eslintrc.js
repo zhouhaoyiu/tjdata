@@ -18,6 +18,6 @@ module.exports = {
   "rules": {
       "no-unused-vars": "off",
       'no-useless-escape': 'off',
-
+      "no-undef": "off",
   },
 };
