@@ -123,17 +123,6 @@
             value-format="yyyy-MM-dd"
           >
           </el-date-picker>
-          <div
-            class=""
-            style="
-              line-height: 40px;
-              margin-left: 20px;
-              color: gray;
-              font-size: 12px;
-            "
-          >
-            提示：订单提
-          </div>
         </div>
         <div class="dialogLine">
           <div class="lineTitle">商品名称<span class="red">*</span></div>
@@ -184,7 +173,6 @@
 </template>
 
 <script>
-import dayjs from "dayjs";
 // @ is an alias to /src
 // import bopic from "../assets/bopic.jpg";
 export default {
@@ -536,16 +524,6 @@ export default {
   mounted() {
     if (!this.$store.state.ticket) {
       this.$router.push("/login");
-    } else if (dayjs(Date()).unix() - localStorage.getItem("date") > 345600) {
-      this.$message({
-        message: "处理订单时间",
-        type: "warning",
-        offset: 80,
-      });
-      localStorage.setItem(
-        "date",
-        dayjs(dayjs(Date()).format("YYYY-MM-DD")).unix()
-      );
     }
 
     console.log("CODE BY ZHY");

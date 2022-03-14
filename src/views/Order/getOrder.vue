@@ -19,7 +19,12 @@
         label="提交人"
         align="center"
       ></el-table-column>
-      <el-table-column label="订购日期" align="center" sortable>
+      <el-table-column
+        prop="orderDate"
+        label="订购日期"
+        align="center"
+        sortable
+      >
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{
@@ -63,7 +68,7 @@
         label="类型"
         align="center"
       ></el-table-column>
-      <el-table-column label="订单状态" align="center" sortable>
+      <el-table-column prop="status" label="订单状态" align="center" sortable>
         <template slot-scope="scope">
           <el-tag type="" v-if="scope.row.orderStatus === '1'"
             >已提交未订购</el-tag
@@ -79,11 +84,10 @@
           >
         </template>
       </el-table-column>
-      <el-table-column width="180" label="操作" align="center">
+      <el-table-column width="100" label="操作" align="center">
         <template slot-scope="scope">
           <div>
             <div v-if="false">{{ scope }}</div>
-            <el-button>取消</el-button>
             <el-button type="primary" @click="editOrder(scope.row.id)"
               >编辑</el-button
             >
