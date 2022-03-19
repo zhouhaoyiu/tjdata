@@ -4,6 +4,11 @@
       <div>提交你的数据</div>
       <div>———————————— by 史</div>
     </div>
+    <div class="text">本周取货和值日：  
+      <span v-if="duty == 1">秦洪涛,张景雲,荀宝茹</span>
+      <span v-if="duty == 2">孙梦平,曹泽龙,李莯耕</span>
+      <span v-if="duty == 3">赵若曦,王树琦,姚昆,刘运平</span>
+    </div>
     <div class="pic">
       <img
         width="400px"
@@ -169,18 +174,55 @@
         <el-button type="primary" @click="sendForm()">确 定</el-button>
       </div>
     </el-dialog>
+    <a
+      target="_blank"
+      href="http://www.macklin.cn/"
+      class="text-decoration-none"
+    >
+      麦克林试剂网 
+    </a>
+    <a
+      target="_blank"
+      href="https://www.aladdin-e.com/"
+      class="text-decoration-none"
+    >
+      阿拉丁试剂网 
+    </a>
+    <a
+      target="_blank"
+      href="https://www.takarabiomed.com.cn/"
+      class="text-decoration-none"
+    >
+      Takara 
+    </a>
+    <a
+      target="_blank"
+      href="https://www.thermofisher.cn/cn/zh/home.html?cid=ebz_bus_sbu_r04_cn_0se_bdk_bz_pur_gene_aBrand_pc_hp_051021_title"
+      class="text-decoration-none"
+    >
+      Thermofisher 
+    </a>
+    <a
+      target="_blank"
+      href="https://www.sigmaaldrich.cn/CN/zh"
+      class="text-decoration-none"
+    >
+      默克（Sigma）
+    </a>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 // import bopic from "../assets/bopic.jpg";
+import dayjs from "dayjs";
 export default {
   name: "Home",
   data() {
     return {
       dialogTitle: "",
       dialogVisible: false,
+      duty:"",
 
       primerForm: {
         userName: this.$store.state.userName,
@@ -519,9 +561,12 @@ export default {
     },
   },
   mounted() {
+    const date1 = dayjs('2022-02-7')
     if (!this.$store.state.ticket) {
       this.$router.push("/login");
-    }  
+    } else {
+      this.duty = Math.ceil(((dayjs(Date()).unix()-date1.unix())%1814400)/604800)
+    }
   },
   computed: {
     getResSelect() {
@@ -567,6 +612,7 @@ export default {
   .pic {
     height: 400px;
   }
+
   .btns {
     padding: 80px 0;
     display: flex;
